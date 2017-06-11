@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {NotificationService} from "../../utils/notification.service";
+import { AuthenticationService } from "../../../+auth/+services/authentication.service";
 
 declare var $:any;
 
@@ -17,7 +18,8 @@ declare var $:any;
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private router: Router,
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router,
               private notificationService: NotificationService) { }
 
   showPopup(){
@@ -34,7 +36,8 @@ export class LogoutComponent implements OnInit {
   }
 
   logout(){
-      this.router.navigate(['/auth/login'])
+      this.authenticationService.logout();
+
   }
 
   ngOnInit() {
