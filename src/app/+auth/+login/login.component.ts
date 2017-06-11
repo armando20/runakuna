@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       .subscribe(data => {
 
           debugger;
-
+          this.router.navigate(['/dashboard/analytics']);
 
 
       },
