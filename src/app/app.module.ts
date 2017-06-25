@@ -24,16 +24,8 @@ import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { BackendService } from "app/+rest/backend.service";
 import { Router } from "@angular/router";
+import {StorageService} from "./+common/storageLocalValues/storage.service";
 
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig(), http, options);
-}
-
-export function provideBackendService(http: Http, authHttp: AuthHttp, router: Router) {
-
-  let url = "http://localhost:8080";
-  return new BackendService(url, http, authHttp, router);
-}
 
 
 // Application wide providers
@@ -47,6 +39,18 @@ type StoreType = {
   restoreInputValues: () => void,
   disposeOldHosts: () => void
 };
+
+
+
+export function provideBackendService(http: Http, authHttp: AuthHttp, router: Router) {
+
+  let url = "http://localhost:8080";
+  return new BackendService(url, http, authHttp, router);
+}
+
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig(), http, options);
+}
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
@@ -75,6 +79,8 @@ type StoreType = {
     // ENV_PROVIDERS,
     AuthGuard,
     AuthenticationService,
+    StorageService,
+
     APP_PROVIDERS,
     {
       provide: AuthHttp,

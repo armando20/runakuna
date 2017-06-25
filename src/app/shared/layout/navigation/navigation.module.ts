@@ -10,6 +10,7 @@ import {SmartMenuDirective} from "./smart-menu.directive";
 import {UserModule} from "../../user/user.module";
 import {RouterModule} from "@angular/router";
 import {ChatModule} from "../../chat/chat.module";
+import {ModuloService} from "./http-modulo-service";
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import {ChatModule} from "../../chat/chat.module";
     MinifyMenuComponent,
     NavigationComponent,
     SmartMenuDirective,
-  ]
+  ],
+  providers: [ModuloService]
 })
 export class NavigationModule{}
