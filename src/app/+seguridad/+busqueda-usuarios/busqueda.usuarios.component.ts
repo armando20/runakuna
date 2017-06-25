@@ -61,6 +61,8 @@ export class BusquedaUsuariosComponent extends ComponentBase implements OnInit {
 
         this.dataServiceEmpleado =
             this.completerService.remote(this.urlAutocompleteEmpleado,'nombreEmpleado','nombreEmpleado');
+        this.onSubmit();
+        this.getEstados();
 
     }
 
@@ -120,6 +122,15 @@ export class BusquedaUsuariosComponent extends ComponentBase implements OnInit {
         this.obtenerUsuarios();
     }
 
+
+    selectEmpleado(e){
+
+        if(e !=null)
+            this.usuarioFilter.idEmpleado = e.originalObject.idEmpleado;
+        else
+            this.usuarioFilter.idEmpleado = null;
+    }
+
     public onEdit(dataItem: any): void {
         this.storeSessionFilter.isNew = false;
         this.storeSessionFilter.idTableFilter = dataItem.idUsuario;
@@ -160,7 +171,43 @@ export class BusquedaUsuariosComponent extends ComponentBase implements OnInit {
         );
     }
 
+    /* agregar usuario */
 
+    onAgregarUsuario(){
+        this.storeSessionFilter.isNew = true;
+        this.empleadoService.storeSessionStorage('editUsuarioResult',this.storeSessionFilter);
+        this._router.navigate(['/seguridad/administrarUsuarios']);
+    }
 
+    onSubmit(){
+        this.validarValoresSeleccionados();
+        this.getUsuarios();
+    }
+
+    private validarValoresSeleccionados(){
+
+        if (this.usuarioFilter.cuentaUsuario === undefined) this.usuarioFilter.cuentaUsuario = null;
+
+        (this.estadosSelect === undefined || this.usuarioFilter.estado == null) ? this.usuarioFilter.estado = ''
+            : this.usuarioFilter.estado = (this.estadosSelect.codigo == null ?  '': this.estadosSelect.codigo.toString());
+
+    }
+    onLimpiar(){
+        this.usuarioFilter.cuentaUsuario = undefined;
+        this.usuarioFilter.email = undefined;
+        this.usuarioFilter.nombre = undefined;
+        this.usuarioFilter.apellidoPaterno = undefined;
+        this.usuarioFilter.apellidoMaterno = undefined;
+        this.usuarioFilter.nombreEmpleado = undefined;
+        this.estadosSelect = this.defaultItemEstados;
+        this.gridView = {
+            data: [],
+            total: 0
+        };
+    }
+
+    private getEstados() {
+        this.estados = this.storageCommomnValueResult.tablaGeneral.filter(grupo => 'Usuario.Estado' === grupo.grupo);
+    }
 
 }
