@@ -11,7 +11,7 @@ import {Usuario} from "../../+dto/maintenance/usuario";
 import {ConfirmDialogComponent} from "../../shared/confirm/confirmDialogBase";
 import {orderBy, SortDescriptor} from "@progress/kendo-data-query";
 import {UsuarioQuickFilter} from "../../+dto/usuarioQuickFilter";
-import {GridDataResult} from "@progress/kendo-angular-grid";
+import {GridDataResult, PageChangeEvent} from "@progress/kendo-angular-grid";
 import {UsuarioResult} from "../../+dto/usuarioResult";
 import {StoreSessionFilter} from "../../+dto/storeSessionFilter";
 import {UsuarioFilter} from "../../+dto/usuarioFilter";
@@ -112,5 +112,55 @@ export class BusquedaUsuariosComponent extends ComponentBase implements OnInit {
             };
         }
     }
+
+    /* grilla */
+
+    protected pageChange(event: PageChangeEvent): void {
+        this.skip = event.skip;
+        this.obtenerUsuarios();
+    }
+
+    public onEdit(dataItem: any): void {
+        this.storeSessionFilter.isNew = false;
+        this.storeSessionFilter.idTableFilter = dataItem.idUsuario;
+        this.empleadoService.storeSessionStorage('editUsuarioResult',this.storeSessionFilter);
+        this._router.navigate(['/seguridad/administrarUsuarios']);
+    }
+
+    public onDelete(dataItem: any): void {
+        this.showLoading=true;
+        this.usuarioService.eliminarUsuarioEmpleado(dataItem.idUsuario).subscribe(
+            data => {
+                this.backendService.notification(this.msgs, data);
+                if (data.codigo == 1) {
+                    this.getUsuarios();
+                }
+                this.showLoading=false;
+            },
+            error => {
+                this.showLoading=false;
+                this.backendService.notification(this.msgs, error);
+            }
+        );
+    }
+    private getUsuarios(){
+        this.showLoading=true;
+        this.usuarioService.buscarUsuarioEmpleado(this.usuarioFilter).subscribe(
+            data => {
+                this.isSearch = true;
+                this.usuarioResult = data;
+                this.skip = 0;
+                this.obtenerUsuarios();
+                this.showLoading=false;
+            },
+            error => {
+                this.showLoading=false;
+                this.backendService.handleError(error);
+            }
+        );
+    }
+
+
+
 
 }

@@ -1,15 +1,18 @@
+/**
+ * Created by josediaz on 22/02/2017.
+ */
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptionsArgs, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import {IUrlOptions, RequestTypes} from "./backend.model";
 import {AuthHttp, AuthHttpError} from "angular2-jwt";
-//import {Message} from "primeng/primeng";
+import {Message} from "primeng/primeng";
 import {Router} from "@angular/router";
 
 @Injectable()
 export class BackendService {
 
-    //msgs: Message[] = [];
+    msgs: Message[] = [];
 
     constructor(
         private host: string,
@@ -66,7 +69,7 @@ export class BackendService {
         }
         //True in case of post, put and patch if options is empty
         else if (body) {
-            let header = new Headers({'Content-Type': 'application/json','Accept': 'application/json'});
+            let header = new Headers({'Content-Type': 'application/json'});
             response = this.authHttp[RequestTypes[requestType]](
                 this.constructUrl(urlOptions),
                 body, {headers: header});
@@ -87,10 +90,10 @@ export class BackendService {
     }
 
 
-    /*public notification(msgs:Message[],  error: any){
+    public notification(msgs:Message[],  error: any){
         this.msgs = msgs;
         this.msgs.push({severity: error.severity, summary: error.summary, detail:error.detail});
-    }*/
+    }
 
 
     public handleError(error:Response){
@@ -100,7 +103,7 @@ export class BackendService {
         }
 
         console.error('An error occurred', error);
-        return Observable.throw(error.json().error || 'Server error');
+        return Observable.throw(error.json() || 'Server error');
     }
 
 }
