@@ -37,40 +37,42 @@ export class ComponentBase {
 
     protected fncEstadoTiempoBool: boolean;
 
-    urlAutocompleteEmpleado:string =  '/autocomplete/autocompleteEmpleado?search=';
+    urlBase:string = "http://localhost:8080";
 
-    urlAutocompleteJefe:string =  '/autocomplete/autocompleteJefe?search=';
-    urlAutocompleteEmpleadoConJefe:string =  '/autocomplete/autocompleteEmpleadoConJefe?idJefe=';
+    urlAutocompleteEmpleado:string = this.urlBase +  '/autocomplete/autocompleteEmpleado?search=';
 
-    urlUploadFile:string = '/utility/cargarArchivoDocumento';
-    urlRemoveFile:string = '/utility/eliminarArchivoDocumento';
-    urlDowloadFile:string = '/utility/descargarArchivoDocumento';
+    urlAutocompleteJefe:string =  this.urlBase + '/autocomplete/autocompleteJefe?search=';
+    urlAutocompleteEmpleadoConJefe:string =  this.urlBase + '/autocomplete/autocompleteEmpleadoConJefe?idJefe=';
 
-    urlExportEmpleado:string =  '/utility/exportarEmpleados';
-    urlExportBusquedaRapidaEmpleado:string =  '/utility/exportarBusquedaRapidaEmpleados';
+    urlUploadFile:string = this.urlBase + '/utility/cargarArchivoDocumento';
+    urlRemoveFile:string = this.urlBase + '/utility/eliminarArchivoDocumento';
+    urlDowloadFile:string = this.urlBase + '/utility/descargarArchivoDocumento';
 
-    urlExportVacaciones:string =  '/utility/exportarVacaciones';
-    urlExportBusquedaRapidaVacaciones:string = '/utility/exportarBusquedaRapidaVacaciones';
-    urlExportVacacionesPendientes:string =  '/utility/exportarVacacionesPendientes';
-    urlExportVacacionesPlanilla:string =  '/utility/exportarVacacionesPlanilla';
+    urlExportEmpleado:string =  this.urlBase + '/utility/exportarEmpleados';
+    urlExportBusquedaRapidaEmpleado:string =  this.urlBase + '/utility/exportarBusquedaRapidaEmpleados';
 
-    urlUploadImportEmpleado:string = '/utility/importarArchivoEmpleados';
+    urlExportVacaciones:string =  this.urlBase + '/utility/exportarVacaciones';
+    urlExportBusquedaRapidaVacaciones:string = this.urlBase + '/utility/exportarBusquedaRapidaVacaciones';
+    urlExportVacacionesPendientes:string =  this.urlBase + '/utility/exportarVacacionesPendientes';
+    urlExportVacacionesPlanilla:string =  this.urlBase + '/utility/exportarVacacionesPlanilla';
 
-    urlRemoveImportEmpleado:string = '/utility/eliminarArchivoEmpleados';
+    urlUploadImportEmpleado:string = this.urlBase + '/utility/importarArchivoEmpleados';
 
-    urlTemplateEmpleado:string = '/utility/templateEmpleadosProcess';
+    urlRemoveImportEmpleado:string = this.urlBase + '/utility/eliminarArchivoEmpleados';
 
-    urlDowloadTemplateEmpleado:string = '/utility/descargarTemplateEmpleados';
+    urlTemplateEmpleado:string = this.urlBase + '/utility/templateEmpleadosProcess';
 
-    urlDowloadFileJasper:string = '/utility/descargarContrato';
+    urlDowloadTemplateEmpleado:string = this.urlBase + '/utility/descargarTemplateEmpleados';
 
-    urlExportMarcacion:string = '/utility/exportarMarcaciones';
-    urlExportBusquedaRapidaMarcacion:string = '/utility/exportarBusquedaRapidaMarcaciones';
+    urlDowloadFileJasper:string = this.urlBase + '/utility/descargarContrato';
 
-    urlExportLicencia:string = '/utility/exportarLicencias';
-    urlExportBusquedaRapidaLicencia:string = '/utility/exportarBusquedaRapidaLicencias';
+    urlExportMarcacion:string = this.urlBase + '/utility/exportarMarcaciones';
+    urlExportBusquedaRapidaMarcacion:string = this.urlBase + '/utility/exportarBusquedaRapidaMarcaciones';
 
-    urlExportPeriodo:string =  '/utility/exportarPeriodoEmpleado';
+    urlExportLicencia:string = this.urlBase + '/utility/exportarLicencias';
+    urlExportBusquedaRapidaLicencia:string = this.urlBase + '/utility/exportarBusquedaRapidaLicencias';
+
+    urlExportPeriodo:string =  this.urlBase + '/utility/exportarPeriodoEmpleado';
 
     constructor(public backendService: BackendService,
                 public codigoModulo: string){
@@ -177,14 +179,14 @@ export class ComponentBase {
 
     protected autorizacionByUsuario(autorizacionFilter: AutorizacionFilter) {
         let urlOptions: IUrlOptions = <IUrlOptions>{};
-        urlOptions.restOfUrl = '/api/rol/obtenerAutorizacion';
+        urlOptions.restOfUrl = this.urlBase + '/api/rol/obtenerAutorizacion';
         return this.backendService.AuthRequest(RequestTypes.post, urlOptions,JSON.stringify(autorizacionFilter)).map(res => <Authorization[]> res)
             .catch(err=> this.backendService.handleError(err));
     }
 
     protected isAuthorizationByRole(idUsuario:number, moduleCode: string, actionName: string) {
         let urlOptions: IUrlOptions = <IUrlOptions>{};
-        urlOptions.restOfUrl = '/login/validateModuleActionName?idUsuario=';
+        urlOptions.restOfUrl = this.urlBase + '/login/validateModuleActionName?idUsuario=';
         return this.backendService.AuthRequest(RequestTypes.get, urlOptions,idUsuario+'&moduleCode='+moduleCode+'&actionName='+actionName)
             .map(res => <Boolean> res)
             .catch(err=> this.backendService.handleError(err));
