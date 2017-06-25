@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LoginInfoComponent} from "../../user/login-info/login-info.component";
+import {Modulo} from "../../../+dto/maintenance/modulo";
 
 
 @Component({
@@ -7,12 +8,15 @@ import {LoginInfoComponent} from "../../user/login-info/login-info.component";
   selector: 'sa-navigation',
   templateUrl: './navigation.component.html'
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
+
+
+  private modulos: Array<Modulo> = [];
+
 
   constructor() {
-  }
 
-  ngOnInit() {
-  }
+    this.modulos = JSON.parse(localStorage.getItem("authKey") || '{}');
 
+  }
 }
