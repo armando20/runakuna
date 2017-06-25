@@ -70,6 +70,8 @@
 
     "X-editable": "github:vitalets/x-editable",
     "angular2-jwt": "^0.2.3",
+    "angular2-text-mask": "^8.0.0",
+
     "bootstrap": "3.3.7",
     "bootstrap-colorpicker": "2.5.1",
     "bootstrap-duallistbox": "3.0.6",

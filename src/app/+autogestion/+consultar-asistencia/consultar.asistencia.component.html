@@ -1,0 +1,126 @@
+<div *ngIf="showLoading">
+    <loading-indicator></loading-indicator>
+</div>
+<div id="content">
+    <p-growl [value]="msgs"></p-growl>
+
+    <div class="row">
+        <div class="page-header">
+            <sa-big-breadcrumbs [items]="['Asistencias']" icon="group"></sa-big-breadcrumbs>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="resume-panel">
+            <div>
+                <div class="resume-info">
+                    <div class="user-image">
+                        <i class="ic-person" id="iconPerson"></i>
+                        <img [src]="fotoEmpleado" style="display: none;" id="fotoEmpleado">
+                    </div>
+                    <div class="user-info">
+                        <div>
+                            <span>{{empleado.nombreCompletoEmpleado}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="well well-light">
+                <div class="padding-10">
+                    <div>
+
+                        <fieldset>
+                            <legend>Marcaciones</legend>
+                            <div class="smart-form">
+                                <div class="row">
+                                    <section class="col col-md-3">
+                                        <label>Desde</label>
+                                        <label class="input">
+                                            <em class="icon-append fa fa-calendar"></em>
+                                            <input type="text"
+                                                   id="datepickerDesdeAdvance"
+                                                   [textMask]="{mask: dateTimeMask,guide:false}"
+                                                   [(ngModel)]="fechaDesde"
+                                                   (change)="onChangeDateDesde($event)"
+                                                   (keyup)="keyUpLenghtInput($event)"
+                                                   saUiDatepicker/>
+                                        </label>
+                                    </section>
+                                    <section class="col col-md-3">
+                                        <label>Hasta</label>
+                                        <label class="input">
+                                            <em class="icon-append fa fa-calendar"></em>
+                                            <input type="text"
+                                                   id="datepickerHastaAdvance"
+                                                   [textMask]="{mask: dateTimeMask,guide:false}"
+                                                   [(ngModel)]="fechaHasta"
+                                                   (change)="onChangeDateHasta($event)"
+                                                   (keyup)="keyUpLenghtInput($event)"
+                                                   saUiDatepicker/>
+                                        </label>
+                                    </section>
+                                </div>
+                            </div>
+
+
+                            <kendo-grid
+                                    [data]="gridViewMarcaciones"
+                                    [pageSize]="pageSizeMarcaciones"
+                                    [skip]="skipMarcaciones"
+                                    [pageable]="true"
+                                    (pageChange)="pageChangeMarcaciones($event)">
+
+                                <kendo-grid-column field="idMarcacion" title=" " [width]="25">
+                                    <template kendoGridCellTemplate let-dataItemMarcacion>
+                                        <div class="text-center" *ngIf="dataItemMarcacion.solicitudCambio=='No'">
+                                            <a href="javascript:void(0)" class="link" (click)="onSolicitarCambio(dataItemMarcacion)">
+                                                <span class="fa fa-file-text"></span></a>
+                                        </div>
+                                        <div class="text-center" *ngIf="dataItemMarcacion.solicitudCambio=='Si'">
+                                            <a href="javascript:void(0)" class="link" (click)="onEditarMarcaciones(dataItemMarcacion)">
+                                                <span class="fa fa-eye"></span></a>
+                                        </div>
+                                    </template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="fecha" [width]="60" title="Fecha"></kendo-grid-column>
+                                <kendo-grid-column field="estado" [width]="60" title="Estado"></kendo-grid-column>
+                                <kendo-grid-column field="horaIngreso" [width]="60" title="Hora Ingreso"></kendo-grid-column>
+                                <kendo-grid-column field="horaInicioAlmuerzo" [width]="90" title="Hora Inicio Almuerzo"></kendo-grid-column>
+                                <kendo-grid-column field="horaFinAlmuerzo" [width]="70">
+                                    <template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">Hora Fin<br>Almuerzo</template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="horaSalida" [width]="60" title="Hora Salida"></kendo-grid-column>
+                                <kendo-grid-column field="solicitudCambio" [width]="90" title="Solicitud de Cambio"></kendo-grid-column>
+                            </kendo-grid>
+                            <marcacion-dialog-form [model]="dataItemMarcacion" (cancel)="onCancelaSolicitudCambio()" (save)="onAgregarSolicitudCambio($event)"></marcacion-dialog-form>
+                        </fieldset>
+                    </div>
+                    <div class="padding-10">
+                        <fieldset>
+                            <legend>Horario</legend>
+
+                            <kendo-grid [data]="horariosEmpleado.horariosEmpleadoDia">
+
+                                <kendo-grid-column field="nombreDiaSemana" title="Dia"></kendo-grid-column>
+                                <kendo-grid-column field="nombreLaboral" title="Laboral"></kendo-grid-column>
+                                <kendo-grid-column field="entrada" title="Entrada"></kendo-grid-column>
+                                <kendo-grid-column field="salida" title="Salida"></kendo-grid-column>
+                                <kendo-grid-column field="tiempoAlmuerzo" title="Almuerzo"></kendo-grid-column>
+
+                            </kendo-grid>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

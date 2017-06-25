@@ -32,7 +32,13 @@ export const routes: Routes = [
                 path: 'seguridad',
                 loadChildren: 'app/+seguridad/seguridad.module#SeguridadModule',
                 data: {pageTitle: 'Seguridad'}
-            }
+            },
+            {
+                path: 'autogestion',
+                loadChildren: 'app/+autogestion/autogestion.module#AutogestionModule',
+                data: {pageTitle: 'Autogestion'}
+            },
+
         ]
     },
 

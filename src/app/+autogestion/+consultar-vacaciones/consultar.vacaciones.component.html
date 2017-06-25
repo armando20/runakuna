@@ -1,0 +1,118 @@
+<div *ngIf="showLoading">
+    <loading-indicator></loading-indicator>
+</div>
+<div id="content">
+    <p-growl [value]="msgs"></p-growl>
+
+    <div class="row">
+        <div class="page-header">
+            <sa-big-breadcrumbs [items]="['Vacaciones']" icon="group"></sa-big-breadcrumbs>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="resume-panel">
+            <div>
+                <div class="resume-info" style="width: calc(100% - 150px);">
+                    <div class="user-image">
+                        <i class="ic-person" id="iconPerson"></i>
+                        <img [src]="fotoEmpleado" style="display: none;" id="fotoEmpleado">
+                    </div>
+                    <div class="user-info">
+                        <div>
+                            <span>{{empleado.nombreCompletoEmpleado}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-options" style="width: 200px;">
+                    <div class="row text-right">
+                        <div class="col-xs-12">
+                            <a (click)="programarVacaciones()" class="btn btn-default">Programar Vacaciones</a>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="well well-sm well-light">
+
+
+                        <div class="padding-10">
+                            <div>
+                                <fieldset>
+                                    <div class="smart-form">
+                                        <div class="row">
+
+                                            <section class="col col-md-4">
+                                                <label>Total días vacaciones disponibles</label>
+                                                <label class="input state-disabled">
+                                                    <input type="text" [(ngModel)]="diasDisponibles" disabled="disabled">
+                                                </label>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                        <kendo-grid
+                                                [data]="gridViewVacaciones"
+                                                [pageSize]="pageSizeVacaciones"
+                                                [skip]="skipVacaciones"
+                                                [pageable]="true"
+                                                (pageChange)="pageChangeVacaciones($event)">
+                                            <kendo-grid-column field="idVacacion" title=" " [width]="40">
+                                                <template kendoGridCellTemplate let-dataItemVacacion>
+                                                    <div class="text-center" *ngIf="dataItemVacacion.estado=='P'">
+                                                        <a href="javascript:void(0)" class="link" (click)="onEditarVacaciones(dataItemVacacion)">
+                                                            <span class="fa fa-pencil"></span></a>
+                                                    </div>
+
+                                                    <div class="text-center" *ngIf="dataItemVacacion.estado!='P'">
+                                                        <a href="javascript:void(0)" class="link" (click)="onEditarVacaciones(dataItemVacacion)">
+                                                            <span class="fa fa-eye"></span></a>
+                                                    </div>
+                                                </template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="idVacacion" title=" " [width]="40">
+                                                <template kendoGridCellTemplate let-dataItem>
+                                                    <div class="text-center" *ngIf="dataItem.estado=='P' || dataItem.estado=='R'">
+                                                        <a href="javascript:void(0)" class="link" (click)="onEliminarVacaciones(dataItem)">
+                                                            <span class="fa fa-trash"></span></a>
+                                                    </div>
+
+                                                </template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="nombreEstado" title="Estado" [width]="100"></kendo-grid-column>
+                                            <kendo-grid-column field="nombreTipo" title="Tipo" [width]="180"></kendo-grid-column>
+                                            <kendo-grid-column field="periodo" title="Periodo" [width]="180"></kendo-grid-column>
+                                            <kendo-grid-column field="fechaInicio" title="Desde" [width]="90"></kendo-grid-column>
+                                            <kendo-grid-column field="fechaFin" title="Hasta" [width]="90"></kendo-grid-column>
+                                            <kendo-grid-column field="diasHabiles" [width]="80">
+                                                <template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                                    D&iacute;as<br/>H&aacute;biles<br/>Gozados
+                                                </template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="diasCalendarios" [width]="100">
+                                                <template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                                    D&iacute;as<br/>Calendarios<br/>Gozados
+                                                </template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="jefeInmediato" title="Jefe Inmediato" [width]="250"></kendo-grid-column>
+                                        </kendo-grid>
+                                    <vacacion-dialog-form [model]="dataItemVacacion" (cancel)="onCancelarVacaciones()" (save)="onAgregarVacaciones($event)"></vacacion-dialog-form>
+
+                                </fieldset>
+                            </div>
+                        </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

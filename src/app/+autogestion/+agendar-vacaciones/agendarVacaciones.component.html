@@ -1,0 +1,206 @@
+<div *ngIf="showLoading">
+    <loading-indicator></loading-indicator>
+</div>
+<div id="content">
+    <p-growl [value]="msgs"></p-growl>
+
+    <div class="row">
+
+        <div class="page-header">
+            <div class="btn-back" (click)="onRegresarConsultarVacaciones()"><i class="ic-arrow-back"></i></div>
+            <sa-big-breadcrumbs [items]="['Programar Vacaciones']" icon="group"></sa-big-breadcrumbs>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="resume-panel">
+                <div>
+                    <div class="resume-info">
+                        <div class="user-image">
+                            <i class="ic-person" id="iconPerson"></i>
+                            <img [src]="fotoEmpleado" style="display: none;" alt="Foto del Empleado" id="fotoEmpleado">
+                        </div>
+                        <div class="user-info">
+                            <div>
+                                <span>{{nombreCompletoEmpleado}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+            <div class="well well-sm well-light">
+
+                <div class="padding-10">
+                    <div>
+                        <fieldset>
+                            <legend>Periodos Vacacionales</legend>
+
+                            <div>
+
+                                    <kendo-grid [data]="periodos" >
+
+                                        <kendo-grid-column field="periodo" title="Periodo" [width]="240">
+
+                                        </kendo-grid-column>
+
+                                        <kendo-grid-column field="diasVacacionesDisponibles" [width]="120">
+                                            <template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                                D&iacute;as habiles<br/>disponibles
+                                            </template>
+
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="diasVacacionesPorVencer" [width]="120">
+                                            <template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                                                D&iacute;as habiles<br/>por vencer
+                                            </template>
+                                        </kendo-grid-column>
+                                    </kendo-grid>
+
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+
+                <div class="padding-10">
+                    <div>
+                        <fieldset>
+                            <legend>Solicitud</legend>
+
+                            <div class="smart-form">
+
+                                <div class="row">
+
+                                    <section class="col col-md-4">
+                                        <label>Jefe Inmediato</label><span style="color: red">*</span>
+                                        <label class="input">
+                                            <kendo-dropdownlist id="jefeInmediato" [data]="historiasLaboralesActuales"
+                                                                [textField]="'jefeInmediato'"
+                                                                [valueField]="'idJefeInmediato'"
+                                                                [defaultItem]="defaultItemHistoriaLaboral"
+                                                                [(ngModel)]="agendarVacacion.idAtendidoPor"
+                                                                (selectionChange)="selectJefeInmediato($event)"
+                                                                [valuePrimitive]="true"
+                                                                style="width: 100%;"><ng-template kendoDropDownListNoDataTemplate></ng-template></kendo-dropdownlist>
+                                        </label>
+
+                                    </section>
+                                    <!--section class="col col-md-4">
+                                        <label>Periodo</label>
+                                        <label class="input state-disabled">
+                                            <input type="text" [(ngModel)]="agendarVacacionPeriodo.periodo" disabled="disabled"/>
+                                        </label>
+
+                                    </section-->
+                                    <!--section class="col col-md-2">
+                                        <label>Dias Disponibles</label>
+                                        <label class="input state-disabled">
+                                            <input type="text" name="diasDisponibles" id="diasDisponibles"
+                                                   [(ngModel)]="agendarVacacion.diasVacacionesDisponibles"
+                                                   disabled="disabled"/>
+                                        </label>
+                                    </section-->
+                                </div>
+
+                                <div class="row">
+
+                                    <section class="col col-md-3">
+                                        <label>Desde<span style="color: red">*</span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" id="datepickerDesde"
+                                                   [(ngModel)]="agendarVacacion.fechaInicio"
+                                                   [textMask]="{mask: dateTimeMask,guide:false}"
+                                                   (change)="onChangeFechaInicio($event)"
+                                                   (keypress)="validaEnter($event)"
+                                                   (keyup)="keyUpLenghtInput($event)"
+                                                   (ngModelChange)="onModelChangeDateDesde($event,'datepickerDesde')"
+                                                   placeholder="Seleccionar una Fecha"
+                                                   saUiDatepicker/>
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-md-3">
+                                        <label>Hasta<span style="color: red">*</span></label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar"></i>
+                                            <input type="text" id="datepickerHasta"
+                                                   [(ngModel)]="agendarVacacion.fechaFin"
+                                                   [textMask]="{mask: dateTimeMask,guide:false}"
+                                                   (change)="onChangeFechaFin($event)"
+                                                   (keypress)="validaEnter($event)"
+                                                   (keyup)="keyUpLenghtInput($event)"
+                                                   (ngModelChange)="onModelChangeDateDesde($event,'datepickerHasta')"
+                                                   placeholder="Seleccionar una Fecha"
+                                                   saUiDatepicker/>
+                                        </label>
+                                    </section>
+
+
+
+                                </div>
+
+                                <div class="row">
+
+                                    <section class="col col-md-3">
+                                        <label>Dias Calendarios</label>
+                                        <label class="input state-disabled">
+                                            <input type="text" name="diasCalendarios" id="diasCalendarios"
+                                                   [(ngModel)]="agendarVacacion.diasCalendarios" disabled="disabled"/>
+                                        </label>
+                                    </section>
+
+                                    <section class="col col-md-3">
+                                        <label>Dias Habiles</label>
+                                        <label class="input state-disabled">
+                                            <input type="text" id="diasHabiles" [(ngModel)]="agendarVacacion.diasHabiles"
+                                                   disabled="disabled">
+                                        </label>
+                                    </section>
+
+                                </div>
+                                <div class="bottom-bar">
+                                    <button (click)="showMessage()" class="btn btn-primary" id="btnGuardar">Solicitar
+                                        Vacaciones
+                                    </button>
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+
+            <kendo-dialog *ngIf="confirmActive" (close)="onClose()">
+
+                <kendo-dialog-titlebar>
+                    Confirmacion
+                </kendo-dialog-titlebar>
+                <div class="modal-body">
+                    <div class="smart-form">
+
+                        <div class="row">
+                            <section class="col col-md-12 text-align-center">
+                                <label class="control-label">{{tituloPopup}}</label>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="onRegistrarVacaciones($event)"> Guardar
+                    </button>
+                    <button type="button" class="btn btn-default" (click)="onCancel($event)"> Cancelar
+                    </button>
+                </div>
+            </kendo-dialog>
+        </div>
+        <!-- WIDGET END -->
+    </div>
+
+
+</div>

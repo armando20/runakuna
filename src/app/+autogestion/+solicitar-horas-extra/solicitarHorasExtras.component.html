@@ -1,0 +1,227 @@
+<div *ngIf="showLoading">
+    <loading-indicator></loading-indicator>
+</div>
+<div id="content">
+    <p-growl [value]="msgs"></p-growl>
+
+    <div class="row">
+
+        <div class="page-header">
+            <div class="btn-back" (click)="onRegresarConsultarHorasExtra()"><i class="ic-arrow-back"></i></div>
+            <sa-big-breadcrumbs [items]="['Solicitar Horas Extras']" icon="group"></sa-big-breadcrumbs>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="resume-panel">
+                <div>
+                    <div class="resume-info">
+                        <div class="user-image">
+                            <i class="ic-person" id="iconPerson"></i>
+                            <img [src]="fotoEmpleado" style="display: none;" alt="Foto del Empleado" id="fotoEmpleado">
+                        </div>
+                        <div class="user-info">
+                            <div>
+                                <span>{{nombreCompletoEmpleado}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+            <div class="well well-light">
+                <p-messages [value]="msgsNot"></p-messages>
+
+                <div>
+                    <fieldset>
+                        <legend>Datos</legend>
+
+                        <div class="smart-form">
+
+                            <div class="row">
+                                <section class="col col-md-4">
+                                    <label>Tipo Hora Extra<span style="color: red">*</span></label>
+                                    <label class="input">
+                                        <kendo-dropdownlist
+                                                [data]="tipoHorasExtra"
+                                                [textField]="'nombre'"
+                                                [valueField]="'codigo'"
+                                                [valuePrimitive]="true"
+                                                [(ngModel)]="horasExtra.tipo"
+                                                [value]="horasExtra.tipo"
+                                                (selectionChange)="cargarTipoHoraExtra($event)"
+                                                id="tipoHoraExtra"
+                                                [defaultItem]="defaultItemTipoHoraExtra"
+                                                style="width: 100%;"
+                                        >
+                                        <ng-template kendoDropDownListNoDataTemplate></ng-template></kendo-dropdownlist>
+
+                                    </label>
+
+                                </section>
+                                <section class="col col-md-4">
+                                    <label>Jefe Inmediato<span style="color: red">*</span></label>
+                                    <label class="input state-disabled">
+                                        <kendo-dropdownlist [data]="historiasLaboralesActuales"
+                                                            [textField]="'jefeInmediato'"
+                                                            [valueField]="'idJefeInmediato'"
+                                                            [defaultItem]="defaultItemHistoriaLaboral"
+                                                            [(ngModel)]="horasExtra.idAtendidoPor"
+                                                            [valuePrimitive]="true"
+                                                            (selectionChange)="selectJefeInmediatoHoraExtra($event)"
+                                                            id="idAtendidoPor"
+                                                            style="width: 100%;"><ng-template kendoDropDownListNoDataTemplate></ng-template></kendo-dropdownlist>
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="row">
+                                <section class="col col-md-4">
+                                    <label>Fecha<span style="color: red">*</span></label>
+                                    <label class="input state-disabled">
+                                        <i class="icon-append fa fa-calendar"></i>
+                                        <input type="text" saUiDatepicker id="fecha"
+                                               placeholder="Seleccionar una Fecha"
+                                               [(ngModel)]="horasExtra.fecha" (change)="onChangeFecha($event)" disabled="disabled"/>
+                                    </label>
+                                </section>
+                                <section class="col col-md-4">
+                                    <label>Horas Adicionales<span style="color: red">*</span></label>
+                                    <label class="input">
+                                        <input type="text" name="horas" id="horas"
+                                               [(ngModel)]="horasExtra.horasAdicionales"
+                                               (blur)="calcularHoraSalidaSolicitado()" (keyup)="ingresaHoras()"/>
+                                    </label>
+                                </section>
+
+                            </div>
+
+                            <div class="row">
+
+
+                                <section class="col col-md-12">
+                                    <label>Motivo<span style="color: red">*</span></label>
+                                    <label class="input">
+                                        <input type="text" name="motivo" id="motivo" (keyup)="ingresaMotivo()"
+                                               [(ngModel)]="horasExtra.motivo"/>
+                                    </label>
+                                </section>
+
+                            </div>
+
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Informaci&oacute;n Adicional</legend>
+                        <div class="smart-form">
+
+                            <div class="row">
+
+                                <section class="col col-md-3">
+                                    <label>Hora de Salida</label>
+                                    <label class="input state-disabled">
+                                        <input type="text" [(ngModel)]="horasExtra.horaSalidaHorario"
+                                               disabled="disabled"/>
+                                    </label>
+                                </section>
+
+                                <section class="col col-md-3">
+                                    <label>Hora de Salida Solicitado</label>
+                                    <label class="input state-disabled">
+                                        <input type="text" [(ngModel)]="horasExtra.horaSalidaSolicitado"
+                                               disabled="disabled"/>
+                                    </label>
+                                </section>
+
+                            </div>
+
+                            <div class="row" *ngIf="isHETrabajo">
+
+                                <section class="col col-md-3">
+                                    <label>Horas Semanales Pendientes</label>
+                                    <label class="input state-disabled">
+                                        <input type="text" [(ngModel)]="horasExtra.horasNoCompensables"
+                                               disabled="disabled"/>
+                                    </label>
+                                </section>
+                                <section class="col col-md-3">
+                                    <label>Total de Horas Extras</label>
+                                    <label class="input state-disabled">
+                                        <input type="text" [(ngModel)]="horasExtra.horas" disabled="disabled"/>
+                                    </label>
+                                </section>
+
+                            </div>
+
+
+
+                        </div>
+                    </fieldset>
+                    <fieldset *ngIf="(isHETrabajo || isHEPersonal)">
+                        <legend>Condiciones y Acuerdos</legend>
+                        <div class="smart-form">
+                            <div class="row" *ngIf="(isHETrabajo || isHEPersonal)">
+                                <section class="col col-md-12">
+                                    <label class="input state-disabled">
+                                        <textarea disabled="disabled" rows="6" cols="130" [(ngModel)]="this.horasExtra.acuerdoTexto"></textarea>
+                                    </label>
+                                </section>
+                            </div>
+                            <div class="row" *ngIf="(isHETrabajo || isHEPersonal)">
+                                <section class="col col-md-3">
+                                    <label id="estoyDeAcuerdoLabel">Estoy de acuerdo</label>
+                                    <label class="select" >
+                                        <input type="checkbox" id="estoyDeAcuerdo" [(ngModel)]="horasExtra.estoyDeAcuerdo" (change)="estoyDeAcuerdo($event)" />
+                                    </label>
+                                </section>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="smart-form">
+                            <div class="bottom-bar">
+                                <button (click)="showMessage()" class="btn btn-primary" id="btnGuardar">Solicitar Horas
+                                    Extra
+                                </button>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <kendo-dialog *ngIf="confirmActive" (close)="onClose()">
+
+                <kendo-dialog-titlebar>
+                    Confirmaci&oacute;n
+                </kendo-dialog-titlebar>
+                <div class="modal-body">
+                    <div class="smart-form">
+
+                        <div class="row">
+                            <section class="col col-md-12 text-align-center">
+
+                                <label class="control-label">La solicitud se enviara a su jefe. ¿Desea
+                                    continuar?</label>
+
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="onRegistrarHorasExtraEmpleado($event)">
+                        Guardar
+                    </button>
+                    <button type="button" class="btn btn-default" (click)="onCancel($event)"> Cancelar
+                    </button>
+                </div>
+            </kendo-dialog>
+
+        </div>
+        <!-- WIDGET END -->
+    </div>
+
+
+</div>

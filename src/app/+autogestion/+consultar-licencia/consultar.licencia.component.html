@@ -1,0 +1,95 @@
+<div *ngIf="showLoading">
+    <loading-indicator></loading-indicator>
+</div>
+<div id="content">
+    <p-growl [value]="msgs"></p-growl>
+
+    <div class="row">
+        <div class="page-header">
+            <sa-big-breadcrumbs [items]="['Licencias']" icon="group"></sa-big-breadcrumbs>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="resume-panel">
+            <div>
+                <div class="resume-info" style="width: calc(100% - 150px);">
+                    <div class="user-image">
+                        <i class="ic-person" id="iconPerson"></i>
+                        <img [src]="fotoEmpleado" style="display: none;" id="fotoEmpleado">
+                    </div>
+                    <div class="user-info">
+                        <div>
+                            <span>{{empleado.nombreCompletoEmpleado}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resume-options" style="width: 200px;">
+                    <div class="row text-right">
+                        <div class="col-xs-12">
+                            <a (click)="solicitarLicencia()" class="btn btn-default">Solicitar Licencia</a>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="well well-light">
+
+                        <div class="padding-10">
+                            <div>
+                                <fieldset>
+                                    <kendo-grid
+                                            [data]="gridViewLicencias"
+                                            [pageSize]="pageSizeLicencias"
+                                            [skip]="skipLicencias"
+                                            [pageable]="true"
+                                            (pageChange)="pageChangeLicencias($event)">
+                                        <kendo-grid-column field="idLicencia" title=" " [width]="30">
+                                            <template kendoGridCellTemplate let-dataItemLicencia>
+                                                <div class="text-center" *ngIf="dataItemLicencia.estado=='E'">
+                                                    <a href="javascript:void(0)" class="link" (click)="onEditarLicencias(dataItemLicencia)">
+                                                        <span class="fa fa-pencil"></span></a>
+                                                </div>
+                                                <div class="text-center" *ngIf="dataItemLicencia.estado!='E'">
+                                                    <a href="javascript:void(0)" class="link" (click)="onViewLicencias(dataItemLicencia)">
+                                                        <span class="fa fa-eye"></span></a>
+                                                </div>
+                                            </template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="idLicencia" title=" " [width]="30">
+                                            <template kendoGridCellTemplate let-dataItemLicencia>
+                                                <div class="text-center"  *ngIf="dataItemLicencia.estado=='E' || dataItemLicencia.estado=='R'">
+                                                    <a href="javascript:void(0)" class="link" (click)="onEliminarLicencias(dataItemLicencia)">
+                                                        <span class="fa fa-trash"></span></a>
+                                                </div>
+                                            </template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="nombreEstado" title="Estado" [width]="60"></kendo-grid-column>
+                                        <kendo-grid-column field="nombreTipoLicencia" title="Tipo Licencia" [width]="160"></kendo-grid-column>
+                                        <kendo-grid-column field="fechaInicio" title="Desde" [width]="80"></kendo-grid-column>
+                                        <kendo-grid-column field="fechaFin" title="Hasta" [width]="80"></kendo-grid-column>
+                                        <kendo-grid-column field="dias" title="D&iacute;as" [width]="45"></kendo-grid-column>
+                                        <kendo-grid-column field="nombreDiaEntero" [width]="70">
+                                            <template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">D&iacute;a<br>Completo</template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="jefeInmediato" title="Jefe Inmediato" [width]="190"></kendo-grid-column>
+                                    </kendo-grid>
+                                    <licencia-dialog-form [model]="dataItemLicencia" (cancel)="onCancelarLicencias()" (save)="onAgregarLicencias($event)"></licencia-dialog-form>
+
+                                </fieldset>
+                            </div>
+                        </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

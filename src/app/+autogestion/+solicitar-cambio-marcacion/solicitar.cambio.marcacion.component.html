@@ -1,0 +1,368 @@
+<div *ngIf="showLoading">
+    <loading-indicator></loading-indicator>
+</div>
+<div id="content">
+
+    <p-growl [value]="msgs"></p-growl>
+
+    <div class="row">
+        <div class="page-header">
+            <div class="btn-back" (click)="onRegresarBusquedaMarcacion()"><i class="ic-arrow-back"></i></div>
+            <sa-big-breadcrumbs [items]="['Solicitar Cambio de Marcaci&oacute;n ']" icon="group"></sa-big-breadcrumbs>
+        </div>
+
+
+        <div class="col-lg-12">
+            <div class="resume-panel">
+                <div>
+                    <div class="resume-info">
+                        <div class="user-image">
+                            <i class="ic-person" id="iconPerson"></i>
+                            <img [src]="fotoEmpleado" style="display: none;" alt="Foto del Empleado" id="fotoEmpleado">
+                        </div>
+                        <div class="user-info">
+                            <div>
+                                <span>{{nombreCompletoEmpleado}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12">
+
+
+                    <div class="well well-light">
+
+                        <div class="padding-10">
+
+                            <div>
+                                <fieldset>
+                                    <legend>Datos de Empleado</legend>
+
+                                    <div class="smart-form">
+
+                                        <div class="row" *ngIf="!jefeInmediatoCombo">
+                                            <section class="col col-md-4">
+                                                <label>Mensaje</label>
+                                                <label class="input">
+                                                    <input type="text" id="messageValidation" [(ngModel)]="messageValidation"/>
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-md-4">
+                                                <label>Jefe Inmediato<span style="color: red">*</span></label>
+                                                <label class="input">
+                                                    <kendo-dropdownlist id="idAtendidoPor"
+                                                                        [data]="historiasLaboralesActuales"
+                                                                        [textField]="'jefeInmediato'"
+                                                                        [valueField]="'idJefeInmediato'"
+                                                                        [defaultItem]="defaultItemHistoriaLaboral"
+                                                                        [(ngModel)]="solicitudCambioMarcacion.idAtendidoPor"
+                                                                        (selectionChange)="selectJefeInmediatoPermiso()"
+                                                                        [valuePrimitive]="true" style="width: 100%;" ><ng-template kendoDropDownListNoDataTemplate></ng-template></kendo-dropdownlist>
+                                                </label>
+                                            </section>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+                            </div>
+                        </div>
+                        <div class="padding-10">
+                            <div>
+                                <fieldset>
+                                    <legend>Marcaci&oacute;n Registrada</legend>
+
+                                    <div class="smart-form">
+
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label>Fecha</label>
+                                                <label class="input state-disabled">
+                                                    <i class="icon-append fa fa-calendar"></i>
+                                                    <input type="text"   [(ngModel)]="marcacion.fecha" saUiDatepicker date-format="dd/MM/yy" disabled="disabled"/>
+                                                </label>
+                                            </section>
+
+                                        </div>
+
+
+                                        <div class="row">
+                                            <section class="col col-3">
+                                                <label>Hora Ingreso</label>
+                                                <label class="input state-disabled">
+                                                    <input type="text"  [(ngModel)]="marcacion.horaIngreso" disabled="disabled"/>
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label>Hora Inicio Almuerzo</label>
+                                                <label class="input state-disabled">
+                                                    <input type="text"  [(ngModel)]="marcacion.horaInicioAlmuerzo" disabled="disabled"/>
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label>Hora Fin Almuerzo</label>
+                                                <label class="input state-disabled">
+                                                    <input type="text"  [(ngModel)]="marcacion.horaFinAlmuerzo" disabled="disabled"/>
+                                                </label>
+                                            </section>
+                                            <section class="col col-3">
+                                                <label>Hora Salida</label>
+                                                <label class="input state-disabled">
+                                                    <input type="text"  [(ngModel)]="marcacion.horaSalida" disabled="disabled"/>
+                                                </label>
+                                            </section>
+
+                                        </div>
+                                    </div>
+                                 </fieldset>
+                            </div>
+                        </div>
+
+
+                        <div class="padding-10">
+                            <div>
+                                <fieldset>
+                                    <legend>Solicitar Cambio en las Marcaciones</legend>
+
+                                        <kendo-tabstrip>
+                                            <kendo-tabstrip-tab [title]="'Solicitud'" [selected]="true">
+                                                <template kendoTabContent>
+                                                            <div class="smart-form" *ngIf="!tieneSolicitud">
+                                                                <div class="row">
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarIngreso" (change)="cambiarHoraIngreso($event)"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Ingreso<span style="color: red">*</span></label>
+                                                                        <label [class]="!isCheckedHoraIngreso?'input state-disabled':'input'">
+                                                                            <p-inputMask id="horaIngreso" mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaIngreso"
+                                                                                         placeholder="00:00" [disabled]="!isCheckedHoraIngreso" (keyup)="ingresaHoraIngreso()"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label [class]="!isCheckedHoraIngreso?'input state-disabled':'input'">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraIngreso" [disabled]="!isCheckedHoraIngreso"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                <!--/div>
+
+                                                                <div class="row"-->
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarInicioAlmuerzo" (change)="cambiarHoraIniAlmuerzo($event)"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Inicio Almuerzo<span style="color: red">*</span></label>
+                                                                        <label [class]="!isCheckedHoraIniAlmuerzo?'input state-disabled':'input'">
+                                                                            <p-inputMask id="horaInicioAlmuerzo" mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaInicioAlmuerzo"
+                                                                                         placeholder="00:00" [disabled]="!isCheckedHoraIniAlmuerzo" (keyup)="ingresaHoraInicioAlmuerzo()"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label [class]="!isCheckedHoraIniAlmuerzo?'input state-disabled':'input'">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraInicioAlmuerzo"  [disabled]="!isCheckedHoraIniAlmuerzo"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                <!--/div>
+
+                                                                <div class="row"-->
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarFinAlmuerzo" (change)="cambiarHoraFinAlmuerzo($event)"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Fin Almuerzo<span style="color: red">*</span></label>
+                                                                        <label [class]="!isCheckedHoraFinAlmuerzo?'input state-disabled':'input'">
+                                                                            <p-inputMask id="horaFinAlmuerzo" mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaFinAlmuerzo"
+                                                                                         placeholder="00:00" [disabled]="!isCheckedHoraFinAlmuerzo" (keyup)="ingresaHoraFinAlmuerzo()"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label [class]="!isCheckedHoraFinAlmuerzo?'input state-disabled':'input'">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraFinAlmuerzo" [disabled]="!isCheckedHoraFinAlmuerzo"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                <!--/div>
+
+                                                                <div class="row"-->
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarSalida" (change)="cambiarHoraSalida($event)"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Salida<span style="color: red">*</span></label>
+                                                                        <label [class]="!isCheckedHoraSalida?'input state-disabled':'input'">
+                                                                            <p-inputMask id="horaSalida" mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaSalida"
+                                                                                         placeholder="00:00" [disabled]="!isCheckedHoraSalida" (keyup)="ingresaHoraSalida()"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label [class]="!isCheckedHoraSalida?'input state-disabled':'input'">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraSalida" [disabled]="!isCheckedHoraSalida"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                </div>
+
+
+                                                </div>
+
+                                                            <div class="smart-form"  *ngIf="tieneSolicitud">
+                                                                <div class="row">
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarIngreso" disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Ingreso</label>
+                                                                        <label class="input state-disabled">
+                                                                            <p-inputMask mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaIngreso"
+                                                                                         placeholder="00:00" disabled="disabled"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label class="input state-disabled">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraIngreso" disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                    <!--/div>
+
+                                                                    <div class="row"-->
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarInicioAlmuerzo" disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Inicio Almuerzo</label>
+                                                                        <label class="input state-disabled">
+                                                                            <p-inputMask mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaInicioAlmuerzo"
+                                                                                         placeholder="00:00" disabled="disabled"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label class="input state-disabled">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraInicioAlmuerzo"  disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                    <!--/div>
+
+                                                                    <div class="row"-->
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarFinAlmuerzo" disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Fin Almuerzo</label>
+                                                                        <label class="input state-disabled">
+                                                                            <p-inputMask mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaFinAlmuerzo"
+                                                                                         placeholder="00:00" disabled="disabled"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label class="input state-disabled">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraFinAlmuerzo" disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                    <!--/div>
+
+                                                                    <div class="row"-->
+                                                                    <section class="col col-2">
+                                                                        <label>Cambiar</label>
+                                                                        <label class="select">
+                                                                            <input type="checkbox" [(ngModel)]="solicitudCambioMarcacion.cambiarSalida" disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-2">
+                                                                        <label>Hora Salida</label>
+                                                                        <label class="input state-disabled">
+                                                                            <p-inputMask mask="99:99" [(ngModel)]="solicitudCambioMarcacion.horaSalida"
+                                                                                         placeholder="00:00" disabled="disabled"></p-inputMask>
+                                                                        </label>
+                                                                    </section>
+                                                                    <section class="col col-8">
+                                                                        <label>Raz&oacute;n de Cambio</label>
+                                                                        <label class="input state-disabled">
+                                                                            <input type="text" [(ngModel)]="solicitudCambioMarcacion.razonCambioHoraSalida" disabled="disabled"/>
+                                                                        </label>
+                                                                    </section>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                </template>
+                                            </kendo-tabstrip-tab>
+
+                                            <kendo-tabstrip-tab [title]="'Registro de Marcaciones'">
+                                                <template kendoTabContent>
+                                                    <kendo-grid
+                                                            [data]="gridViewRegistroMarcacion"
+                                                            [pageSize]="pageSizeRegistroMarcacion"
+                                                            [skip]="skipRegistroMarcacion"
+                                                            [pageable]="true"
+                                                            (pageChange)="pageChangeRegistroMarcacion($event)">
+
+                                                        <kendo-grid-column field="hora" title="Hora" width="40px">
+                                                        </kendo-grid-column>
+                                                        <kendo-grid-column field="tipo" title="Tipo" width="40px">
+                                                        </kendo-grid-column>
+                                                        <kendo-grid-column field="sensor" title="Sensor" width="40px">
+                                                        </kendo-grid-column>
+                                                    </kendo-grid>
+                                                </template>
+                                            </kendo-tabstrip-tab>
+                                        </kendo-tabstrip>
+
+
+                                    </fieldset>
+                                </div>
+                            </div>
+
+                        <div class="padding-10">
+                            <div class="bottom-bar">
+                                <button (click)="onRegistrarSolicitudCorreccionMarcacion()" class="btn btn-primary">Solicitar Cambio Marcaci&oacute;n</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+        </div>
+
+    </div>
+</div>
