@@ -1,0 +1,208 @@
+<div *ngIf="showLoading">
+    <loading-indicator></loading-indicator>
+</div>
+<div id="content">
+    <p-growl [value]="msgs"></p-growl>
+    <div class="page-header">
+        <div class="btn-back" (click)="onRegresarBusquedaUsuarios()"><i class="ic-arrow-back"></i></div>
+        <sa-big-breadcrumbs [items]="[' Usuario ']" icon="group"></sa-big-breadcrumbs>
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-lg-12">
+
+            <div class="well well-sm well-light">
+
+                <div class="padding-10">
+
+                    <div>
+                        <fieldset>
+                            <legend>Datos</legend>
+
+                            <div class="smart-form">
+
+                                <div class="row">
+                                    <section class="col col-md-4">
+                                        <label>Nombre de Usuario<span style="color: red">*</span></label>
+                                        <label class="input">
+                                            <input id="cuentaUsuario" type="text"
+                                                   [(ngModel)]="usuario.cuentaUsuario"
+                                                   (keyup)="keyUpLenghtNotNull($event,'cuentaUsuario')"/>
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-md-4" *ngIf="isEditCodEmpleado == false">
+                                        <label>Asociar a Empleado</label>
+                                            <label class="select">
+                                                <input type="checkbox"
+                                                       [(ngModel)]="asociadoEmpleado"
+                                                       (change)="isCheckAsociadoEmpleado($event)">
+                                            </label>
+                                    </section>
+                                    <section class="col col-md-4" *ngIf="showAutocomplete == true">
+                                        <label>Empleado</label>
+                                        <div>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search"></i>
+                                                <ng2-completer
+                                                               [(ngModel)]="usuario.nombreEmpleado"
+                                                               [dataService]="dataServiceEmpleado"
+                                                               [minSearchLength]="0"
+                                                               (selected)="selectEmpleado($event)">
+                                                </ng2-completer>
+                                            </label>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row" *ngIf="checkAsociadoEmpleado == true && isEditCodEmpleado == false">
+                                    <section class="col col-md-4">
+                                        <label>Empleado</label>
+                                        <div>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-search"></i>
+                                                <ng2-completer id="nombreEmpleado"
+                                                               [(ngModel)]="usuario.nombreEmpleado"
+                                                               [dataService]="dataServiceEmpleado"
+                                                               [minSearchLength]="0"
+                                                               (selected)="selectEmpleado($event)">
+                                                </ng2-completer>
+                                            </label>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label>Nombres<span style="color: red">*</span></label>
+                                        <label class="input">
+                                            <input id="nombre" type="text"
+                                                   (keyup)="keyUpLenghtNotNull($event,'nombre')"
+                                                   [(ngModel)]="usuario.nombre"/>
+                                        </label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label>Apellido Paterno<span style="color: red">*</span></label>
+                                        <label class="input">
+                                            <input id="apellidoPaterno" type="text"
+                                                   (keyup)="keyUpLenghtNotNull($event,'apellidoPaterno')"
+                                                   [(ngModel)]="usuario.apellidoPaterno"/>
+                                        </label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label>Apellido Materno<span style="color: red">*</span></label>
+                                        <label class="input">
+                                            <input id="apellidoMaterno" type="text"
+                                                   (keyup)="keyUpLenghtNotNull($event,'apellidoMaterno')"
+                                                   [(ngModel)]="usuario.apellidoMaterno"/>
+                                        </label>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-md-4">
+                                        <label>Correo Electr&oacute;nico<span style="color: red">*</span></label>
+                                        <label class="input">
+                                            <input id="email" style="width: 100%;" type="text" [(ngModel)]="usuario.email" />
+                                        </label>
+
+                                    </section>
+                                    <section class="col col-md-4">
+                                        <label>Estado<span style="color: red">*</span></label>
+                                        <div>
+                                            <label class="input">
+                                                <kendo-dropdownlist id="estado"
+                                                                    [data]="estados"
+                                                                    [textField]="'nombre'"
+                                                                    [valuePrimitive] = "true"
+                                                                    [defaultItem]="defaultItemEstados"
+                                                                    [valueField]="'codigo'" style="width: 100%;"
+                                                                    [(value)]="usuario.estado"
+                                                                    (selectionChange)="changeEstado($event)"
+                                                >
+                                                <ng-template kendoDropDownListNoDataTemplate></ng-template></kendo-dropdownlist>
+                                            </label>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                    </div>
+
+                </div>
+
+                <div class="padding-10">
+
+                    <div>
+                        <fieldset>
+                            <legend>Perfiles</legend>
+                            <div class="smart-form">
+                                <div class="row">
+                                    <section class="col col-md-3">
+                                        <label>Roles<span style="color: red">*</span></label>
+                                        <div>
+                                            <label class="input">
+                                                <kendo-dropdownlist id="allRol"
+                                                                    [data]="allRol"
+                                                                    [textField]="'descripcion'"
+                                                                    [defaultItem]="defaultItemAllRoles"
+                                                                    [valueField]="'idRol'" style="width: 100%;"
+                                                                    (selectionChange)="selectedRol($event)"
+                                                >
+                                                <ng-template kendoDropDownListNoDataTemplate></ng-template></kendo-dropdownlist>
+                                            </label>
+                                        </div>
+                                    </section>
+                                    <section class="col col-md-1">
+                                        <label class="label-dummy">&nbsp;</label>
+                                        <button type="submit" (click)="onAgregarRol($event)" class="btn btn-lg btn-primary">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    <section class="col col-md-6">
+                                        <kendo-grid [data]="view">
+                                            <kendo-grid-column field="roles" title=" " width="40px" *ngIf="isAuthorized('Editar')">
+                                                <template kendoGridCellTemplate let-dataItem>
+                                                    <div class="text-center">
+                                                        <a href="javascript:void(0)" class="link" (click)="onDelete(dataItem)">
+                                                            <span class="fa fa-trash"></span></a>
+                                                    </div>
+                                                </template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="descripcion" title="Nombre"></kendo-grid-column>
+                                            <kendo-grid-column field="porDefecto" title="Por Defecto" width="120" *ngIf="storeSessionFilter.isNew === false">
+                                                <template kendoGridCellTemplate let-dataItem>
+                                                    <input type="checkbox" *ngIf="storeSessionFilter.isNew === false" [(ngModel)]="dataItem.porDefecto" />
+                                                </template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column title="Por Defecto" width="120" *ngIf="storeSessionFilter.isNew === true">
+                                                <template kendoGridCellTemplate let-dataItem>
+                                                    <input type="checkbox" *ngIf="storeSessionFilter.isNew === true" [(ngModel)]="dataItem.porDefecto" />
+                                                </template>
+                                            </kendo-grid-column>
+                                        </kendo-grid>
+                                    </section>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="padding-10">
+                    <div class="bottom-bar">
+                        <button (click)="onGuardarUsuarios()" class="btn btn-primary" *ngIf="isAuthorized('Editar')"> Guardar</button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

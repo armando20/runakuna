@@ -1,5 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {BusquedaUsuariosComponent} from "./+busqueda-usuarios/busqueda.usuarios.component";
+import {AdministrarUsuariosComponent} from "./+administrar-usuarios/administrar.usuarios.component";
 
 
 
@@ -17,8 +18,11 @@ export const seguridadRoutes: Routes = [
     {
         path: 'busquedaUsuarios',
         component: BusquedaUsuariosComponent
+    },
+    {
+        path: 'administrarUsuarios',
+        component: AdministrarUsuariosComponent
     }
-
 
 ];
 

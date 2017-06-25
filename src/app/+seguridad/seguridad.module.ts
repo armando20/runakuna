@@ -4,6 +4,7 @@ import {BusquedaUsuariosModule} from "./+busqueda-usuarios/busqueda.usuarios.mod
 import {UsuarioService} from "../+common/service/usuario.service";
 import {RolService} from "../+common/service/rol.service";
 import {EmpleadoService} from "../+common/service/empleado.service";
+import {AdministrarUsuariosModule} from "./+administrar-usuarios/administrar.usuarios.module";
 
 
 /**
@@ -18,6 +19,7 @@ import {EmpleadoService} from "../+common/service/empleado.service";
     imports: [
         seguridadRouting,
         BusquedaUsuariosModule,
+        AdministrarUsuariosModule
     ],
     providers: [
         EmpleadoService,RolService,UsuarioService
