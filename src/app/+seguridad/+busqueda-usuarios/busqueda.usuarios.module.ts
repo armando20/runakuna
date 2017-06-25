@@ -15,9 +15,9 @@ import {Ng2CompleterModule} from "ng2-completer";
 import {BusquedaUsuariosComponent} from "./busqueda.usuarios.component";
 import {LayoutModule} from "@progress/kendo-angular-layout";
 import {GrowlModule} from "primeng/components/growl/growl";
-//import {ConfirmModule} from "../../shared/confirm/confirm.module";
-//import {ConfirmModule} from "../../shared/confirm/confirm.module";
+
 import {LoadingIndicatorModule} from "../../+common/Utils/loader/LoadingIndicatorModule";
+import {ConfirmModule} from "../../shared/confirm/confirm.module";
 
 
 
@@ -39,7 +39,7 @@ import {LoadingIndicatorModule} from "../../+common/Utils/loader/LoadingIndicato
         Ng2CompleterModule,
         LayoutModule,
         GrowlModule,
-        //ConfirmModule,
+        ConfirmModule,
         LoadingIndicatorModule
 
     ],
