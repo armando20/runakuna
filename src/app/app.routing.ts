@@ -27,35 +27,11 @@ export const routes: Routes = [
                 loadChildren: 'app/+dashboard/dashboard.module#DashboardModule',
                 data: {pageTitle: 'Dashboard'}
             },
-            {
-                path: 'mantenimientos',
-                loadChildren: 'app/+mantenimiento/mantenimiento.module#MantenimientoModule',
-                data: {pageTitle: 'Mantenimientos'}
-            },
+
             {
                 path: 'seguridad',
                 loadChildren: 'app/+seguridad/seguridad.module#SeguridadModule',
                 data: {pageTitle: 'Seguridad'}
-            },
-            {
-                path: 'personal',
-                loadChildren: 'app/+personal/personal.module#PersonalModule',
-                data: {pageTitle: 'Personal'}
-            },
-            {
-                path: 'autogestion',
-                loadChildren: 'app/+autogestion/autogestion.module#AutogestionModule',
-                data: {pageTitle: 'Autogestion'}
-            },
-            {
-                path: 'gestionTiempo',
-                loadChildren: 'app/+gestion-tiempo/gestion.tiempo.module#GestionTiempoModule',
-                data: {pageTitle: 'Gestion de Tiempo'}
-            },
-            {
-                path: 'organizacion',
-                loadChildren: 'app/+organizacion/organizacion.module#OrganizacionModule',
-                data: {pageTitle: 'Organizacion'}
             }
         ]
     },

@@ -1,4 +1,8 @@
-import {Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
+import {BusquedaUsuariosComponent} from "./+busqueda-usuarios/busqueda.usuarios.component";
+
+
+
 /**
  * Created by josediaz on 6/25/17.
  */
@@ -8,4 +12,14 @@ import {Routes} from "@angular/router";
 
 
 
-export const seguridadRoutes: Routes = []
+export const seguridadRoutes: Routes = [
+
+    {
+        path: 'busquedaUsuarios',
+        component: BusquedaUsuariosComponent
+    }
+
+
+];
+
+export const seguridadRouting = RouterModule.forChild(seguridadRoutes)
