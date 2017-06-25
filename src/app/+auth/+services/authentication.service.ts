@@ -5,7 +5,6 @@
 
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Response } from "@angular/http";
 import { Router } from "@angular/router";
 import { tokenNotExpired } from "angular2-jwt";
 import { BackendService } from "app/+rest/backend.service";

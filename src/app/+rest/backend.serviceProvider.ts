@@ -1,6 +1,5 @@
 import { Http } from '@angular/http';
 import {BackendService} from "./backend.service";
-import {environment} from "../../environments/environment";
 import {AuthHttp} from "angular2-jwt";
 import {Router} from "@angular/router";
 export function provideBackendService() {

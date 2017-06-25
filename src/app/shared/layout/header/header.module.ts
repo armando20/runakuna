@@ -20,6 +20,7 @@ import {I18nModule} from "../../i18n/i18n.module";
 import {UserModule} from "../../user/user.module";
 import {VoiceControlModule} from "../../voice-control/voice-control.module";
 import {BsDropdownModule} from "ngx-bootstrap";
+import {GrowlModule} from "primeng/components/growl/growl";
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import {BsDropdownModule} from "ngx-bootstrap";
 
     BsDropdownModule,
 
-    UtilsModule, I18nModule, UserModule, PopoverModule,
+    UtilsModule, I18nModule, UserModule, PopoverModule, GrowlModule
   ],
   declarations: [
     ActivitiesMessageComponent,

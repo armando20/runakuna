@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {Message} from "primeng/components/common/api";
+
 
 declare var $: any;
 
@@ -8,6 +10,9 @@ declare var $: any;
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
+
+
+  msgs: Message[] = [];
 
   constructor(private router: Router) {
   }
