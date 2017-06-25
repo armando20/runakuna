@@ -122,6 +122,12 @@ export class BusquedaUsuariosComponent extends ComponentBase implements OnInit {
         this.obtenerUsuarios();
     }
 
+    protected sortChange(sort: SortDescriptor[]): void {
+        this.sort = sort;
+        this.obtenerUsuarios();
+    }
+
+
 
     selectEmpleado(e){
 
