@@ -14,7 +14,7 @@ import {StorageResult} from "../../+dto/storageResult";
 @Injectable()
 export class StorageService {
 
-    private localStorageCommonsUrl = '/localStorage/obtenerLocalStorage';
+    private localStorageCommonsUrl = 'http://localhost:8080/localStorage/obtenerLocalStorage';
 
     constructor(private http:Http, private backendService: BackendService) {
     }
