@@ -5,7 +5,7 @@
 
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Response } from "@angular/http";
+
 import { Router } from "@angular/router";
 import { tokenNotExpired } from "angular2-jwt";
 import { BackendService } from "app/+rest/backend.service";
@@ -30,7 +30,8 @@ export class AuthenticationService {
         return this.backendService.Request(RequestTypes.post, urlOptions, 
                                 JSON.stringify({username: username, password: password}))
          .map((response: any) => {
-            
+
+            debugger;
              let token = response.token;
              if(token){
                 this.token = token;    
