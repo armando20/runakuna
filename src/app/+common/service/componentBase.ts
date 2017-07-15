@@ -37,7 +37,7 @@ export class ComponentBase {
 
     protected fncEstadoTiempoBool: boolean;
 
-    urlBase:string = "http://localhost:8080";
+    urlBase:string = "http://localhost:7999";
 
     urlAutocompleteEmpleado:string = this.urlBase +  '/autocomplete/autocompleteEmpleado?search=';
 
