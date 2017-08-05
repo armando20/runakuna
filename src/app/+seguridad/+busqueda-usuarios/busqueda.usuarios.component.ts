@@ -40,6 +40,7 @@ export class BusquedaUsuariosComponent extends ComponentBase implements OnInit {
     private usuarioFilter: UsuarioFilter = new UsuarioFilter();
     storeSessionFilter: StoreSessionFilter = new StoreSessionFilter();
     usuarioResult: UsuarioResult[] = [];
+
     private gridView: GridDataResult;
     private pageSize: number = 10;
     private skip: number = 0;
