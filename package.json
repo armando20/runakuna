@@ -44,8 +44,6 @@
     "@angular/platform-browser": "4.0.1",
     "@angular/platform-browser-dynamic": "4.0.1",
     "@angular/router": "4.0.1",
-
-
     "@progress/kendo-angular-buttons": "^0.24.0",
     "@progress/kendo-angular-dateinputs": "^0.7.0",
     "@progress/kendo-angular-dialog": "^0.20.0",
@@ -64,10 +62,6 @@
     "@progress/kendo-theme-default": "^2.12.1",
     "@telerik/kendo-dropdowns-common": "^0.2.2",
     "@telerik/kendo-theme-default": "^1.33.4",
-
-
-
-
     "X-editable": "github:vitalets/x-editable",
     "angular2-jwt": "^0.2.3",
     "bootstrap": "3.3.7",
