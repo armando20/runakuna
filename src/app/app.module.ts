@@ -2,7 +2,7 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -16,9 +16,11 @@ import { AppState, InternalStateType } from './app.service';
 // Core providers
 import {CoreModule} from "./core/core.module";
 import {SmartadminLayoutModule} from "./shared/layout/layout.module";
-
+import { LoginComponent } from "app/+auth/+login/login.component";
 
 import { ModalModule } from 'ngx-bootstrap/modal';
+
+import {LoginModule} from "./+auth/+login/login.module";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -44,11 +46,12 @@ type StoreType = {
   imports: [ // import Angular's modules
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
+      FormsModule,
+      ReactiveFormsModule,
 
-    ModalModule.forRoot(),
+      ModalModule.forRoot(),
 
-
+   LoginModule,
     CoreModule,
     SmartadminLayoutModule,
 

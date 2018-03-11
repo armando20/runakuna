@@ -6,8 +6,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() {}
+    build: string;
+    revision: string;
+    timestamp: string;
+    //currentUser: CurrentUser = new CurrentUser();
 
-  ngOnInit() {}
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
 
 }

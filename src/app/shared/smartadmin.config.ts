@@ -1,3 +1,4 @@
+
 export const config: any = {
 
   defaultLocale: "us",
@@ -6,7 +7,7 @@ export const config: any = {
 
   menu_speed: 200,
 
-  smartSkin: "smart-style-0",
+  smartSkin: "smart-style-4",
 
 
   skins: [
@@ -42,7 +43,7 @@ export const config: any = {
 
     {
       name: "smart-style-3",
-      logo: "assets/img/logo-pale.png",
+      logo: "assets/img/runakuna-logo-v1.png",
       skinBtnClass: "btn btn-xs btn-block txt-color-white margin-top-5",
       style: {
         background: '#f78c40'
@@ -52,7 +53,7 @@ export const config: any = {
 
     {
       name: "smart-style-4",
-      logo: "assets/img/logo-pale.png",
+      logo: "../assets/img/runakuna-logo-v1.png",
       skinBtnClass: "btn btn-xs btn-block txt-color-white margin-top-5",
       style: {
         background: '#bbc0cf',
@@ -64,7 +65,7 @@ export const config: any = {
 
     {
       name: "smart-style-5",
-      logo: "assets/img/logo-pale.png",
+      logo: "assets/img/runakuna-logo-v1.png",
       skinBtnClass: "btn btn-xs btn-block txt-color-white margin-top-5",
       style: {
         background: 'rgba(153, 179, 204, 0.2)',
@@ -182,7 +183,7 @@ export const config: any = {
    * Defines all voice command variables and functions
    */
 
-  voice_commands: {
+  voice_commands: <any>{
 
     'show dashboard': {
       type: 'navigate', payload: ['/dashboard/+analytics']
@@ -328,6 +329,6 @@ export const config: any = {
 };
 
 
-// required for SmartNotification 
+// required for SmartNotification // @todo
 window['jQuery'].sound_on = config.sound_on;
 window['jQuery'].sound_path = config.sound_path;

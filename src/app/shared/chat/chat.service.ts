@@ -10,6 +10,7 @@ export class ChatService {
   public messageToSubject;
   public newMessage;
 
+
   constructor(private jsonApiService: JsonApiService) {
     this.url = '/chat/chat.json';
     this.messageToSubject = new Subject();
