@@ -1,6 +1,6 @@
-# Smartadmin
+# Initial Template
 
-[live](https://smartadmin-angular.firebaseapp.com) demo
+
 
 ## AOT Note
 Starting from version 0.4.5 we are supporting AOT builds.  
@@ -113,9 +113,9 @@ Checkout `scripts` section in `package.json` for tools launching shortcuts
 write shell scripts for build/deploy/whatever routines automation
 
 
-## Smartadmin Angular 2 templates
+## Angular 2 templates
 
-Smartadmin will be supplied with 3 templates: 
+This template will be supplied with 3 templates: 
 * *full* - full demo application
 * *blank* - app with simple Home page. All demo pages are also there  but they are excluded from build by default
 * *lite* - good starting point for creating smartadmin app with no extra dependencies (like jquery) 
@@ -171,7 +171,6 @@ App is configured for running end-to-end (via [Protractor](http://www.protractor
 
 
 ## resources
-- [live project demo](https://smartadmin-angular.firebaseapp.com)
 - [angular-cli docs](https://github.com/angular/angular-cli)
 
 
