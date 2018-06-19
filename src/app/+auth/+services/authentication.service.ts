@@ -23,6 +23,8 @@ export class AuthenticationService {
 
     public login(username: string, password: string): Observable<boolean> {
 
+        debugger;
+
         let urlOptions: IUrlOptions = <IUrlOptions>{};
         urlOptions.restOfUrl = this.authenticateUrl;
 
